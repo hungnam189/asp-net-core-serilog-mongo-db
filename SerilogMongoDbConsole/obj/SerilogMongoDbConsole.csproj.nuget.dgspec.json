@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Work\\SerilogMongoDb\\SerilogMongoDbConsole\\SerilogMongoDbConsole.csproj": {}
+    "D:\\Work\\asp-net-core-serilog-mongo-db\\SerilogMongoDbConsole\\SerilogMongoDbConsole.csproj": {}
   },
   "projects": {
-    "D:\\Work\\SerilogMongoDb\\SerilogMongoDbConsole\\SerilogMongoDbConsole.csproj": {
+    "D:\\Work\\asp-net-core-serilog-mongo-db\\SerilogMongoDbConsole\\SerilogMongoDbConsole.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Work\\SerilogMongoDb\\SerilogMongoDbConsole\\SerilogMongoDbConsole.csproj",
+        "projectUniqueName": "D:\\Work\\asp-net-core-serilog-mongo-db\\SerilogMongoDbConsole\\SerilogMongoDbConsole.csproj",
         "projectName": "SerilogMongoDbConsole",
-        "projectPath": "D:\\Work\\SerilogMongoDb\\SerilogMongoDbConsole\\SerilogMongoDbConsole.csproj",
+        "projectPath": "D:\\Work\\asp-net-core-serilog-mongo-db\\SerilogMongoDbConsole\\SerilogMongoDbConsole.csproj",
         "packagesPath": "C:\\Users\\THINKPAD\\.nuget\\packages\\",
-        "outputPath": "D:\\Work\\SerilogMongoDb\\SerilogMongoDbConsole\\obj\\",
+        "outputPath": "D:\\Work\\asp-net-core-serilog-mongo-db\\SerilogMongoDbConsole\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
