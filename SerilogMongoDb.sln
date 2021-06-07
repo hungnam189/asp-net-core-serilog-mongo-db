@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerilogMongoDb", "SerilogMongoDb\SerilogMongoDb.csproj", "{F1DDB420-4152-4CF1-A2A9-9B1D276AF6CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerilogMongoDbConsole", "SerilogMongoDbConsole\SerilogMongoDbConsole.csproj", "{8EBD2AC3-C9E8-47D9-BADF-9FF2CF90CEB6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F1DDB420-4152-4CF1-A2A9-9B1D276AF6CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1DDB420-4152-4CF1-A2A9-9B1D276AF6CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1DDB420-4152-4CF1-A2A9-9B1D276AF6CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1DDB420-4152-4CF1-A2A9-9B1D276AF6CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EBD2AC3-C9E8-47D9-BADF-9FF2CF90CEB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EBD2AC3-C9E8-47D9-BADF-9FF2CF90CEB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EBD2AC3-C9E8-47D9-BADF-9FF2CF90CEB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EBD2AC3-C9E8-47D9-BADF-9FF2CF90CEB6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C7B641DF-CC62-44F8-BD08-1503B865AB12}
+	EndGlobalSection
+EndGlobal
