@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Bson;
 using Serilog;
@@ -12,15 +13,27 @@ namespace SerilogMongoDb
     {
         private static readonly LoggerProviderCollection Providers = new LoggerProviderCollection();
 
-        public static void Main(string[] args)
+        internal static void Main(string[] args)
         {
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            bool isReloadOnChange = false;
+            var config = new ConfigurationBuilder()
+                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: isReloadOnChange)
+                        .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: isReloadOnChange)
+                        .Build();
+
+
+            // "mongodb://namth123:namth123@localhost:27017/serilog"
             BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
             Log.Logger = new LoggerConfiguration()
                         .MinimumLevel.Debug()
                         .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                         .Enrich.FromLogContext()
                         .WriteTo.Console()
-                        .WriteTo.MongoDB("mongodb://namth123:namth123@localhost:27017/serilog", collectionName: "logapi")
+                        .WriteTo.MongoDB(
+                            config.GetSection("ConnectionStrings:MongoDbLogging").GetSection("ConnectionString").Value,
+                            collectionName: config.GetSection("ConnectionStrings:MongoDbLogging").GetSection("CollectionName").Value)
                         .WriteTo.Providers(Providers)
                         .CreateLogger();
 
@@ -41,13 +54,15 @@ namespace SerilogMongoDb
             }
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
+        internal static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .UseSerilog(providers: Providers)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
+
 
     }
 }

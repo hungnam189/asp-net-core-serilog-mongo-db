@@ -3,3 +3,4 @@
 - Smart docs(Swagger)
 - Serilog with MongoDb
 - MongoDb docker-file
+- AspNetCore Identity with MongoDb(Authencation: Bearer Token)

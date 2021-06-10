@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using Serilog;
 using System;
+using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Runtime.Versioning;
 
@@ -10,9 +13,10 @@ namespace SerilogMongoDb.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ContadorController : ControllerBase
     {
-        private static Contador _CONTADOR = new Contador();
+        private readonly Contador _CONTADOR = new Contador();
         private readonly ILogger _logger;
 
         public ContadorController()
@@ -23,6 +27,7 @@ namespace SerilogMongoDb.Controllers
         [HttpGet]
         public object Get([FromServices] IConfiguration configuration)
         {
+
             lock (_CONTADOR)
             {
                 _CONTADOR.Incrementar();
