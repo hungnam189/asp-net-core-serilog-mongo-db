@@ -4,3 +4,4 @@
 - Serilog with MongoDb
 - MongoDb docker-file
 - AspNetCore Identity with MongoDb(Authencation: Bearer Token)
+- Demo CRUD with MongoDb
