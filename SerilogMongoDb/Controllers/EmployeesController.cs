@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 using SerilogMongoDb.Models;
 using SerilogMongoDb.Repositories;
 using System.Collections.Generic;
@@ -36,16 +35,37 @@ namespace SerilogMongoDb.Controllers
             return Ok(employee);
         }
 
+        [HttpPost("CreateManyEmployee")]
+        public async Task<ActionResult<int>> CreateManyEmployeeAsync([FromBody] IEnumerable<Employee> commands)
+        {
+            var employee = await _employeeRepository.CreateManyAsync(commands).ConfigureAwait(false);
+            return Ok(employee);
+        }
+
+        [HttpPost("CreateUseBulkWriteAsync")]
+        public async Task<ActionResult<long>> CreateUseBulkWriteAsync([FromBody] IEnumerable<Employee> commands)
+        {
+            var employee = await _employeeRepository.CreateUseBulkWriteAsync(commands).ConfigureAwait(false);
+            return Ok(employee);
+        }
+
         /// <summary>
         /// Update
         /// </summary>
         /// <param name="id"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        [HttpPost("{id:length(24)}")]
+        [HttpPut("{id:length(24)}")]
         public async Task<ActionResult<bool>> UpdateAsync(string id, Employee command)
         {
             var result = await _employeeRepository.UpdateAsync(id, command).ConfigureAwait(false);
+            return Ok(result);
+        }
+
+        [HttpPost("UpdateManyEmployeeAsync")]
+        public async Task<ActionResult<long>> UpdateManyEmployeeAsync(IEnumerable<Employee> commands)
+        {
+            var result = await _employeeRepository.UpdateManyEmployeeAsync(commands).ConfigureAwait(false);
             return Ok(result);
         }
 

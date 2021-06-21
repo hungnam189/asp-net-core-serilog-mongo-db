@@ -14,8 +14,13 @@ namespace SerilogMongoDb.Repositories
         //Create
         Task<string> CreateAsync(Employee employee);
 
+        Task<int> CreateManyAsync(IEnumerable<Employee> employees);
+
+        Task<long> CreateUseBulkWriteAsync(IEnumerable<Employee> employees);
+
         // Update
         Task<bool> UpdateAsync(string objectId, Employee employee);
+        Task<long> UpdateManyEmployeeAsync(IEnumerable<Employee> employees);
 
         // Delete 
         Task<bool> DeleteAsync(string objectId);
