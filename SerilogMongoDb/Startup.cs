@@ -1,22 +1,21 @@
-using AspNetCore.Identity.MongoDbCore.Infrastructure;
 using AspNetCore.Identity.MongoDbCore.Extensions;
+using AspNetCore.Identity.MongoDbCore.Infrastructure;
 using IdentityServices.Jwt;
 using IdentityServices.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using MongoDbGenericRepository;
+using SerilogMongoDb.Database;
+using SerilogMongoDb.Repositories;
 using System;
 using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 
 namespace SerilogMongoDb
 {
@@ -45,7 +44,6 @@ namespace SerilogMongoDb
                 //Set default Authentication Schema as Bearer
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
             }).AddJwtBearer(cfg =>
             {
                 cfg.RequireHttpsMetadata = false;
@@ -62,8 +60,7 @@ namespace SerilogMongoDb
                            ValidAudience = jwtSettings.Audience,
                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key))
                        };
-            }).AddIdentityCookies(o => { });
-
+            }).AddIdentityCookies(_ => { });
 
             // "mongodb://namth_identity:namth123@localhost:27017/Identity"
             // "var mongoDbContext = new MongoDbContext(Configuration.GetSection("ConnectionStrings:MongoDbIdentity").Value);"
@@ -71,8 +68,8 @@ namespace SerilogMongoDb
             {
                 MongoDbSettings = new MongoDbSettings
                 {
-                    ConnectionString = Configuration.GetSection("ConnectionStrings:MongoDbIdentity").GetSection("ConnectionString").Value,
-                    DatabaseName = Configuration.GetSection("ConnectionStrings:MongoDbIdentity").GetSection("Database").Value
+                    ConnectionString = Configuration.GetSection("MongoDbIdentity").GetSection("ConnectionString").Value,
+                    DatabaseName = Configuration.GetSection("MongoDbIdentity").GetSection("Database").Value
                 },
                 IdentityOptionsAction = options =>
                 {
@@ -92,22 +89,21 @@ namespace SerilogMongoDb
                 }
             };
 
-
             // "services.AddIdentity<ApplicationUser, ApplicationRole>()"
             // ".AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>(mongoDbContext)"
             services.ConfigureMongoDbIdentity<ApplicationUser, ApplicationRole, Guid>(mongoDbIdentityConfiguration)
                     .AddSignInManager()
                     .AddDefaultTokenProviders();
 
+            var employeeSettings = new ExtMongoDbSettings();
+            Configuration.Bind("DemoAspNetCoreMongoDb", employeeSettings);
+            services.AddSingleton(employeeSettings);
 
-
+            services.AddSingleton<IEmployeeRepository, EmployeeRepository>();
 
             services.AddLogging();
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SerilogMongoDb", Version = "v1" });
-            });
+            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "SerilogMongoDb", Version = "v1" }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

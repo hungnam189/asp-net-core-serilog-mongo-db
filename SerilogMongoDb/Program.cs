@@ -6,6 +6,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Extensions.Logging;
 using System;
+using System.Diagnostics;
 
 namespace SerilogMongoDb
 {
@@ -17,12 +18,11 @@ namespace SerilogMongoDb
         {
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-            bool isReloadOnChange = false;
+            const bool isReloadOnChange = false;
             var config = new ConfigurationBuilder()
                         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: isReloadOnChange)
                         .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: isReloadOnChange)
                         .Build();
-
 
             // "mongodb://namth123:namth123@localhost:27017/serilog"
             BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
@@ -32,12 +32,12 @@ namespace SerilogMongoDb
                         .Enrich.FromLogContext()
                         .WriteTo.Console()
                         .WriteTo.MongoDB(
-                            config.GetSection("ConnectionStrings:MongoDbLogging").GetSection("ConnectionString").Value,
-                            collectionName: config.GetSection("ConnectionStrings:MongoDbLogging").GetSection("CollectionName").Value)
+                            config.GetSection("MongoDbLogging:ConnectionString").Value,
+                            collectionName: config.GetSection("MongoDbLogging:CollectionName").Value)
                         .WriteTo.Providers(Providers)
                         .CreateLogger();
 
-            ///Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
+            Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
 
             try
             {
@@ -61,8 +61,5 @@ namespace SerilogMongoDb
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-
-
-
     }
 }
