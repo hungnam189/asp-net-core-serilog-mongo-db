@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using SerilogMongoDb.Database;
 using SerilogMongoDb.Models;
 using System;
