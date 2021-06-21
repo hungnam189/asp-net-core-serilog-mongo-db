@@ -4,7 +4,7 @@ using System.Configuration;
 
 namespace SerilogMongoDbConsole
 {
-    class Program
+    internal static class Program
     {
         private static void Main(string[] args)
         {
@@ -12,7 +12,8 @@ namespace SerilogMongoDbConsole
             var client = new MongoClient("mongodb://localhost:27017/Logging");
             _ = client.GetDatabase("Logging");
 
-            Console.WriteLine("Hello World!");
+            var arg = args[0];
+            Console.WriteLine("arg:{0}", arg);
         }
     }
 }
