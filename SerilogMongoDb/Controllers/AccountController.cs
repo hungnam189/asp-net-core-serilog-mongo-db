@@ -53,7 +53,7 @@ namespace SerilogMongoDb.Controllers
             var result = await _roleManager.CreateAsync(new ApplicationRole
             {
                 Name = roleName
-            });
+            }).ConfigureAwait(false);
             if (result.Succeeded)
             {
                 _logger.LogInformation("RoleName: {0}", roleName);
@@ -89,7 +89,6 @@ namespace SerilogMongoDb.Controllers
 
                 await _userManager.AddToRoleAsync(user, "User").ConfigureAwait(false);
                 await _userManager.AddClaimAsync(user, new Claim("Office", user.PhoneNumber, ClaimValueTypes.Integer)).ConfigureAwait(false);
-                
                 //var token = _jwtCreator.Generate(user.Email, new Guid().ToString());
                 var responeData = new LoginResponse("", user.UserName, user.Email, new List<string> { "User" }, "");
 

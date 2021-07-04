@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SerilogMongoDb.Database;
+using SerilogMongoDb.Database.Entities;
 using SerilogMongoDb.Repositories;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -99,7 +100,9 @@ namespace SerilogMongoDb
             Configuration.Bind("DemoAspNetCoreMongoDb", employeeSettings);
             services.AddSingleton(employeeSettings);
 
+            /// services.AddSingleton(typeof(IMongoDbRepository<>), typeof(MongoDbRepository<>));
             services.AddSingleton<IEmployeeRepository, EmployeeRepository>();
+            services.AddSingleton<ICompanyRepository, CompanyRepository>();
 
             services.AddLogging();
             services.AddControllers();

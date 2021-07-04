@@ -1,6 +1,6 @@
-﻿using MongoDB.Driver;
+﻿using SerilogMongoDbConsole.VulnerabilityDemo;
 using System;
-using System.Configuration;
+using System.Linq;
 
 namespace SerilogMongoDbConsole
 {
@@ -8,12 +8,17 @@ namespace SerilogMongoDbConsole
     {
         private static void Main(string[] args)
         {
-            //var client = new MongoClient("mongodb://root:example@mongo:27017");
-            var client = new MongoClient("mongodb://localhost:27017/Logging");
-            _ = client.GetDatabase("Logging");
+            VulnerabilityRuleDemo vulnerabilityRuleDemo = new VulnerabilityRuleDemo();
 
-            var arg = args[0];
-            Console.WriteLine("arg:{0}", arg);
+            const int TimeCheckOut = 1;
+            var lstValid = new int[] { 1, 3, 4 };
+            var result =  lstValid.Any(p => p == TimeCheckOut) ? 15
+                    : TimeCheckOut == 2 ? 20
+                    : 0;
+
+            //var arg = args != null ? args[0] : "null";
+            Console.WriteLine("arg:{0}", 0);
+            Console.ReadLine();
         }
     }
 }

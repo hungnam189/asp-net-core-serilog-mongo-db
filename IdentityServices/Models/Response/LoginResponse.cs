@@ -11,19 +11,19 @@ namespace IdentityServices.Models.Response
             UserName = userName;
             Email = email;
             Roles = roles;
+            RefreshToken = refreshToken;
         }
 
-        public string Id { get; private set; }
-        public string Token { get; private set; }
+        public string Id { get; }
+        public string Token { get; }
 
-        public string UserName { get; private set; }
+        public string UserName { get; }
 
-        public string Email { get; private set; }
+        public string Email { get; }
 
-        public List<string> Roles { get; private set; }
+        public List<string> Roles { get; }
 
         [JsonIgnore]
-        public string RefreshToken { get; private set; }
-
+        public string RefreshToken { get; }
     }
 }

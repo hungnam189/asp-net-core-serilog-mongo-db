@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace SerilogMongoDb
 {
-    public class Program
+    public static class Program
     {
         private static readonly LoggerProviderCollection Providers = new LoggerProviderCollection();
 
