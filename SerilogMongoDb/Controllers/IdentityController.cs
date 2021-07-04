@@ -37,7 +37,7 @@ namespace SerilogMongoDb.Controllers
             SignInManager<ApplicationUser> signInManager,
             RoleManager<ApplicationRole> roleManager,
             JwtSettings jwtSettings,
-        ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory)
         {
             _jwtCreator = jwtCreator;
             _userManager = userManager;
@@ -110,9 +110,6 @@ namespace SerilogMongoDb.Controllers
                 Response.Cookies.Append("X-Access-Token", token, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
                 Response.Cookies.Append("X-Username", user.UserName, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
                 ///Response.Cookies.Append("X-Refresh-Token", user.RefreshToken, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
-
-
-
                 _logger.LogInformation(1, $"User({user.UserName}) logged in.");
                 return Ok(rootData);
             }

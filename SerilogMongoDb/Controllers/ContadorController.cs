@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using System;
-using System.Linq;
-using System.Net;
 using System.Reflection;
 using System.Runtime.Versioning;
 
@@ -27,7 +25,6 @@ namespace SerilogMongoDb.Controllers
         [HttpGet]
         public object Get([FromServices] IConfiguration configuration)
         {
-
             lock (_CONTADOR)
             {
                 _CONTADOR.Incrementar();
