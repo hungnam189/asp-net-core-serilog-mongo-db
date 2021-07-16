@@ -12,7 +12,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SerilogMongoDb.Database;
-using SerilogMongoDb.Database.Entities;
 using SerilogMongoDb.Repositories;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -28,6 +27,7 @@ namespace SerilogMongoDb
         }
 
         public IConfiguration Configuration { get; }
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -122,10 +122,7 @@ namespace SerilogMongoDb
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
 }

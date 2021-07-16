@@ -31,7 +31,7 @@ namespace SerilogMongoDb.Controllers
             SignInManager<ApplicationUser> signInManager,
             RoleManager<ApplicationRole> roleManager,
             JwtTokenCreator jwtCreator,
-        ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -63,7 +63,6 @@ namespace SerilogMongoDb.Controllers
             return Ok("Role is create fail.");
         }
 
-
         [HttpPost("Register")]
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
@@ -82,10 +81,10 @@ namespace SerilogMongoDb.Controllers
                 PhoneNumber = model.PhoneNumber
             };
 
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var result = await _userManager.CreateAsync(user, model.Password).ConfigureAwait(false);
             if (result.Succeeded)
             {
-                await _signInManager.SignInAsync(user, isPersistent: false);
+                await _signInManager.SignInAsync(user, isPersistent: false).ConfigureAwait(false);
 
                 await _userManager.AddToRoleAsync(user, "User").ConfigureAwait(false);
                 await _userManager.AddClaimAsync(user, new Claim("Office", user.PhoneNumber, ClaimValueTypes.Integer)).ConfigureAwait(false);
@@ -106,7 +105,5 @@ namespace SerilogMongoDb.Controllers
                 data = new object()
             });
         }
-
-
     }
 }

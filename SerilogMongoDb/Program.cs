@@ -56,7 +56,7 @@ namespace SerilogMongoDb
 
         internal static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseSerilog(providers: Providers)
+                //.UseSerilog(providers: Providers)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

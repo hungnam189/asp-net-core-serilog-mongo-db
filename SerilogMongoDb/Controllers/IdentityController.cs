@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 
 namespace SerilogMongoDb.Controllers
 {
-
     [ApiController]
     [Route("[controller]")]
     [Authorize]
@@ -29,8 +28,6 @@ namespace SerilogMongoDb.Controllers
         private readonly JwtSettings _jwtSettings;
 
         private readonly ILogger _logger;
-
-
         public IdentityController(
             JwtTokenCreator jwtCreator,
             UserManager<ApplicationUser> userManager,
@@ -56,7 +53,7 @@ namespace SerilogMongoDb.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _userManager.FindByNameAsync(request.UserName);
+            var user = await _userManager.FindByNameAsync(request.UserName).ConfigureAwait(false);
 
             if (user == null)
             {
@@ -66,7 +63,7 @@ namespace SerilogMongoDb.Controllers
 
             // Check that the user can sign in and is not locked out.
             // If two-factor authentication is supported, it would also be appropriate to check that 2FA is enabled for the user
-            if (!await _signInManager.CanSignInAsync(user) || (_userManager.SupportsUserLockout && await _userManager.IsLockedOutAsync(user)))
+            if (!await _signInManager.CanSignInAsync(user).ConfigureAwait(false) || (_userManager.SupportsUserLockout && await _userManager.IsLockedOutAsync(user).ConfigureAwait(false)))
             {
                 // Return bad request is the user can't sign in
                 return StatusCode((int)HttpStatusCode.Unauthorized, $"Bad Credentials! The user({request.UserName}) can't sign in");
@@ -74,10 +71,9 @@ namespace SerilogMongoDb.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-            var result = await _signInManager.PasswordSignInAsync(request.UserName, request.Password, request.RememberMe, lockoutOnFailure: false);
+            var result = await _signInManager.PasswordSignInAsync(request.UserName, request.Password, request.RememberMe, lockoutOnFailure: false).ConfigureAwait(false);
             if (result.Succeeded)
             {
-
                 var token = _jwtCreator.Generate(user.Email, user.Id.ToString());
                 var rolesList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
 
@@ -96,7 +92,7 @@ namespace SerilogMongoDb.Controllers
                     }
                 };
 
-                await _userManager.UpdateSecurityStampAsync(user);
+                await _userManager.UpdateSecurityStampAsync(user).ConfigureAwait(false);
                 var dateSingin = DateTime.UtcNow;
                 var dateExpries = dateSingin + _jwtSettings.Expire;
 
@@ -116,20 +112,14 @@ namespace SerilogMongoDb.Controllers
             return StatusCode((int)HttpStatusCode.Unauthorized, "Invalid username or password");
         }
 
-
-
         //
         // POST: /Account/LogOff
         [HttpPost("LogOff")]
         public async Task<IActionResult> LogOff()
         {
-            await _signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync().ConfigureAwait(false);
             _logger.LogInformation(4, "User logged out.");
             return Ok("User logged out.");
         }
-
-
-
-
     }
 }
